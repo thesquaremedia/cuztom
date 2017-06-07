@@ -134,32 +134,17 @@ class Box extends Meta
      * @param  array $columns
      * @return array
      */
-    public function addColumn($columns)
+     public function addSortableColumn($columns)
     {
-        unset($columns['date']);
-
-        foreach ($this->fields as $id => $field) {
-            if ($field->show_admin_column) {
-                $columns[$id] = $field->label;
+        if ($this->data) {
+            foreach ($this->data as $id => $field) {
+                if ($field->admin_column_sortable) {
+                    $columns[$id] = $field->label;
+                }
             }
         }
 
-        $columns['date'] = __('Date');
-
         return $columns;
-    }
-
-    /**
-     * Used to add the column content to the column head.
-     *
-     * @param string $column
-     * @param int    $postId
-     */
-    public function addColumnContent($column, $postId)
-    {
-        $field = $this->fields[$column];
-
-        echo $field->outputColumnContent($postId);
     }
 
     /**
