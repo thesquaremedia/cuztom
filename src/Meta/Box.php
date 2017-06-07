@@ -139,7 +139,7 @@ class Box extends Meta
         unset($columns['date']);
 
         foreach ($this->fields as $id => $field) {
-            if ($field->show_admin_column) {
+            if ( isset( $field->show_admin_column ) &&  $field->show_admin_column) {
                 $columns[$id] = $field->label;
             }
         }
@@ -156,11 +156,15 @@ class Box extends Meta
      * @param int    $postId
      */
     public function addColumnContent($column, $postId)
-    {
-        $field = $this->fields[$column];
+   {	
+		if( isset( $this->fields[$column] ) ){
+       		$field = $this->fields[$column];
 
-        echo $field->outputColumnContent($postId);
-    }
+       	echo $field->outputColumnContent();
+		}else{
+			return $column;
+		}
+	}
 
     /**
      * Used to make all columns sortable.
